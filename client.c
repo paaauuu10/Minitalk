@@ -1,16 +1,44 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pbotargu <pbotargu@student.42barcel>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/19 11:50:52 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/01/19 12:00:40 by pbotargu         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-#include "./ft_printf/ft_printf.h"
-int main()
+#include <stdio.h>
+#include <unistd.h>
+#include <signal.h>
+#include <stdlib.h>
+
+void    ft_send_signal(int pid, char z)
 {
-	ft_printf("hola");
+    int bit;
+
+    bit = 0;
+    while (bit < 8)
+    {
+        if ((z & (0x01 << bit)) != 0)
+            kill(pid, SIGUSR1);
+        else
+            kill(pid, SIGUSR2);
+        usleep(100);
+        bit++;
+    }
+}
+
+int main(int argc, char **argv)
+{
+    int pid;
+    int i;
+
+    i = 0;
+    if (argc == 3)
+    {
+        pid = atoi(argv[1]); /*usar fakeone*/
+        while (argv[2][i] != '\0')
+        {
+            ft_send_signal(pid, argv[2][i]);
+            i++;
+        }
+        //ft_send_signal(pid, '\n');
+    }
+    else
+    {
+        printf("Wrong format");
+        printf("Correct format: ./client <PID> <MESSAGE>");
+    }    
+    return (0);
 }

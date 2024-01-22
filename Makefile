@@ -3,56 +3,57 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pbotargu <pbotargu@student.42barcel>       +#+  +:+       +#+         #
+#    By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/19 11:27:36 by pbotargu          #+#    #+#              #
-#    Updated: 2024/01/19 12:02:27 by pbotargu         ###   ########.fr        #
+#    Updated: 2024/01/22 12:22:31 by pbotargu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SERVER = server
 CLIENT = client
+SERVER_BONUS = server_bonus
+CLIENT_BONUS = client_bonus
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -rf
 
-FT_PRINTF_PATH = ./ft_printf
-FT_PRINTF = $(FT_PRINTF_PATH)/libftprintf.a
+LIBFT_PATH = ./libft
+LIBFT = $(LIBFT_PATH)/libft.a
 
-SOURCES_SERVER = server.c
-OBJECTS_SERVER = $(SOURCES_SERVER:.c=.o)
+SRCS_SERVER = server.c
+OBJ_SERVER = $(SRCS_SERVER:.c=.o)
 
-SOURCES_CLIENT = client.c
-OBJECTS_CLIENT = $(SOURCES_CLIENT:.c=.o)
+SRCS_CLIENT = client.c
+OBJ_CLIENT = $(SRCS_CLIENT:.c=.o)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus
 
 all: $(SERVER) $(CLIENT)
 
-$(FT_PRINTF):
-	$(MAKE) -s -C $(FT_PRINTF_PATH)
+$(LIBFT):
+	$(MAKE) -s -C $(LIBFT_PATH)
 
-$(SERVER) : $(OBJECTS_SERVER) $(FT_PRINTF)
-	$(CC) $(CFLAGS) $(OBJECTS_SERVER) -o $@ -L$(FT_PRINTF_PATH) -lft
+$(SERVER): $(OBJ_SERVER) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJ_SERVER) -o $@ -L$(LIBFT_PATH) -lft
 
-$(CLIENT): $(OBJECTS_CLIENT) $(FT_PRINTF)
-	$(CC) $(CFLAGS) $(OBJECTS_CLIENT) -o $@ -L$(FT_PRINTF_PATH) -lft
+$(CLIENT): $(OBJ_CLIENT) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJ_CLIENT) -o $@ -L$(LIBFT_PATH) -lft
 
-$(OBJECTS_SERVER): $(SOURCES_SERVER)
+$(OBJ_SERVER): $(SRCS_SERVER)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJECTS_CLIENT): $(SOURCES_CLIENT)
+$(OBJ_CLIENT): $(SRCS_CLIENT)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(MAKE) clean -s -C $(FT_PRINTF_PATH)
-	$(RM) $(OBJ_SERVER) $(OBJ_CLIENT) $(OBJ_SERVER_BONUS) $(OBJ_CLIENT_BONUS)
+	$(MAKE) clean -s -C $(LIBFT_PATH)
+	$(RM) $(OBJ_SERVER) $(OBJ_CLIENT)
 
 fclean: clean
-	$(MAKE) fclean -s -C $(FT_PRINTF_PATH)
-	$(RM) $(SERVER) $(CLIENT) $(SERVER_BONUS) $(CLIENT_BONUS)
+	$(MAKE) fclean -s -C $(LIBFT_PATH)
+	$(RM) $(SERVER) $(CLIENT) 
 	@echo "Clean del Client i del Servidor"
 
 re: fclean all
-
