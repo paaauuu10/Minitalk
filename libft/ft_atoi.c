@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 10:19:24 by pbotargu          #+#    #+#             */
-/*   Updated: 2023/06/12 13:13:49 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/01/23 12:28:50 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_atoi(const char *str)
 		if (str[i] == '-')
 			sign = -1;
 		i++;
-	}	
+	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		result = result * 10 + (str[i] - '0');

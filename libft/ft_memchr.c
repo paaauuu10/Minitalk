@@ -6,7 +6,7 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 10:38:51 by pbotargu          #+#    #+#             */
-/*   Updated: 2023/06/09 11:39:07 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/01/23 12:28:05 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ void	*ft_memchr(const void *s, int c, size_t n)
 		if (p[i] == search)
 			return ((void *)(p + i));
 		i++;
-	}	
+	}
 	return (NULL);
-}	
+}
