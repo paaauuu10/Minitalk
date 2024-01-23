@@ -6,54 +6,47 @@
 #    By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/19 11:27:36 by pbotargu          #+#    #+#              #
-#    Updated: 2024/01/23 12:31:11 by pbotargu         ###   ########.fr        #
+#    Updated: 2024/01/23 16:33:36 by pbotargu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SERVER = server
 CLIENT = client
-SERVER_BONUS = server_bonus
-CLIENT_BONUS = client_bonus
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -rf
 
-LIBFT_PATH = ./libft
-LIBFT = $(LIBFT_PATH)/libft.a
+SOURCES_SERVER = server.c
+OBJECTS_SERVER = $(SOURCES_SERVER:.c=.o)
 
-SRCS_SERVER = server.c
-OBJ_SERVER = $(SRCS_SERVER:.c=.o)
-
-SRCS_CLIENT = client.c
-OBJ_CLIENT = $(SRCS_CLIENT:.c=.o)
+SOURCES_CLIENT = client.c
+OBJECTS_CLIENT = $(SOURCES_CLIENT:.c=.o)
 
 .PHONY: all clean fclean re bonus
 
 all: $(SERVER) $(CLIENT)
 
-$(LIBFT):
-	$(MAKE) -s -C $(LIBFT_PATH)
+# Server executable
+$(SERVER): $(OBJECTS_SERVER) Makefile
+	$(CC) $(CFLAGS) -o $@ $(OBJECTS_SERVER)
 
-$(SERVER): $(OBJ_SERVER) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJ_SERVER) -o $@ -L$(LIBFT_PATH) -lft
+# Client executable
+$(CLIENT): $(OBJECTS_CLIENT) Makefile
+	$(CC) $(CFLAGS) -o $@ $(OBJECTS_CLIENT)
 
-$(CLIENT): $(OBJ_CLIENT) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJ_CLIENT) -o $@ -L$(LIBFT_PATH) -lft
-
-$(OBJ_SERVER): $(SRCS_SERVER)
+# Compile server source files
+$(OBJECTS_SERVER): $(SOURCES_SERVER)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJ_CLIENT): $(SRCS_CLIENT)
+# Compile client source files
+$(OBJECTS_CLIENT): $(SOURCES_CLIENT)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(MAKE) clean -s -C $(LIBFT_PATH)
-	$(RM) $(OBJ_SERVER) $(OBJ_CLIENT)
+	$(RM) $(OBJECTS_SERVER) $(OBJECTS_CLIENT)
 
 fclean: clean
-	$(MAKE) fclean -s -C $(LIBFT_PATH)
-	$(RM) $(SERVER) $(CLIENT) 
-	@echo "Clean del Client i del Servidor"
+	$(RM) $(SERVER) $(CLIENT)
 
 re: fclean all

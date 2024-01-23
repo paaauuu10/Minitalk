@@ -6,20 +6,35 @@
 /*   By: pbotargu <pbotargu@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 11:42:28 by pbotargu          #+#    #+#             */
-/*   Updated: 2024/01/23 12:31:16 by pbotargu         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:36:50 by pbotargu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <unistd.h>
 #include <signal.h>
 #include <stdlib.h>
-#include "./libft/libft.h"
 
 void	ft_error(void)
 {
-	printf("Error sending the bit to the server\n"); /*fakeone*/
+	write(1, "Error sending the bit to the server\n", 36);
 	exit(EXIT_FAILURE);
+}
+
+int	ft_atoi(const char *str)
+{
+	int				i;
+	long long int	result;
+
+	i = 0;
+	result = 0;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result = result * 10 + (str[i] - '0');
+		i++;
+		if (result > 2147483647)
+			return (-1);
+	}
+	return (result);
 }
 
 void	ft_send_signal(int pid, char c)
@@ -62,8 +77,8 @@ int	main(int argc, char **argv)
 	}
 	else
 	{
-		printf("Wrong format");/*fakeone*/
-		printf("Correct format: ./client <PID> <MESSAGE>");/*fakeone*/
+		write(1, "Wrong format!\n", 14);
+		write(1, "Correct format: ./client <PID> <MESSAGE>\n", 41);
 	}
 	return (0);
 }
